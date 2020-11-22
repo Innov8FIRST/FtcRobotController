@@ -54,5 +54,9 @@ public class Hera {
 //        driveTrain.goForward(30);
     }
 
+    public void ringSense() {
+
+    }
+
 
 }
