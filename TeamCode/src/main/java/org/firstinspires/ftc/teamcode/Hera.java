@@ -16,6 +16,7 @@ public class Hera {
     Telemetry telemetry;
     String HERA_CAPTION = "Hera Status";
     DriveTrain driveTrain;
+    OpenCV openCV;
     LinearOpMode opMode;
     Gamepad gamepad1 = new Gamepad();
     Gamepad gamepad2 = new Gamepad();
@@ -25,7 +26,8 @@ public class Hera {
         this.opMode = opMode;
         this.hwmap = new HardwareInnov8Hera(hwmap, opMode);
         this.telemetry = telemetry;
-        driveTrain = new DriveTrain(this.telemetry, this.hwmap, this.opMode   );
+        driveTrain = new DriveTrain(this.telemetry, this.hwmap, this.opMode);
+        openCV = new OpenCV(this.telemetry, this.hwmap, this.opMode);
         this.telemetry.addData(HERA_CAPTION, "ready to go");
         this.telemetry.update();
     }
@@ -55,8 +57,24 @@ public class Hera {
     }
 
     public void ringSense() {
-
+        while (true) {
+            if (openCV.getRingNumber() == RingPosition.ONE) {
+                // Drive to 2nd square
+                showData("Ring Position", "One");
+            } else if (openCV.getRingNumber() == RingPosition.FOUR) {
+                // Drive to 3rd square
+                showData("Ring Position", "Four");
+            } else {
+                // Drive to 1st square
+                showData("Ring Position", "None");
+            }
+        }
     }
 
+    public void showData(String caption, String value) {
+        this.telemetry.addData(caption, value);
+        this.telemetry.update();
+        Log.d(caption, value);
+    }
 
 }
