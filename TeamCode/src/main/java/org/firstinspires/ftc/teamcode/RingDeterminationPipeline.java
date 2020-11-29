@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import android.util.Log;
+
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.Point;
@@ -78,13 +80,14 @@ public class RingDeterminationPipeline extends OpenCvPipeline
                 BLUE, // The color the rectangle is drawn in
                 2); // Thickness of the rectangle lines
 
-        position = RingPosition.FOUR; // Record our analysis
+        this.position = RingPosition.FOUR; // Record our analysis
+        Log.d("Pipeline check", "pipeline is running");
         if(avg1 > FOUR_RING_THRESHOLD){
-            position = RingPosition.FOUR;
+            this.position = RingPosition.FOUR;
         }else if (avg1 > ONE_RING_THRESHOLD){
-            position = RingPosition.ONE;
+            this.position = RingPosition.ONE;
         }else{
-            position = RingPosition.NONE;
+            this.position = RingPosition.NONE;
         }
 
         Imgproc.rectangle(

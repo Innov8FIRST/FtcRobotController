@@ -2,8 +2,6 @@ package org.firstinspires.ftc.teamcode;
 
 import android.util.Log;
 
-import com.qualcomm.hardware.bosch.BNO055IMU;
-import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
@@ -37,8 +35,8 @@ public class DriveTrain {
     private double avgMotorThreeDist;
     private double avgMotorFourDist;
     private double baseline = 0;
-    public static double INCH_TO_TICK = (360/6); // The number of encoder ticks per inch for our wheels
-    public static double SIDE_INCH_TO_TICK = (360/6); // The number of encoder ticks for one inch while travelling sideways, change later
+    public static double TICKS_IN_INCH = (360/6); // The number of encoder ticks per inch for our wheels
+    public static double SIDE_TICKS_IN_INCH = (360/6); // The number of encoder ticks for one inch while travelling sideways, change later
     public DriveTrain(Telemetry telemetry, HardwareInnov8Hera hera, LinearOpMode opMode) {
 
 // Retrieve and initialize the IMU. We expect the IMU to be attached to an I2C port
@@ -59,23 +57,23 @@ public class DriveTrain {
         showData("DRIVE_TRAIN_CAPTION", "Robot is moving forward");
         this.telemetry.update();
         startPosition = hera.motorOne.getCurrentPosition();
-        endPosition = startPosition + (inches * INCH_TO_TICK); // How far you need to travel
+        endPosition = startPosition + (inches * TICKS_IN_INCH); // How far you need to travel
         hera.motorOne.setPower(wheelPower);
-        //hera.motorTwo.setPower(wheelPower);
+        hera.motorTwo.setPower(wheelPower);
         hera.motorThree.setPower(wheelPower);
-        //hera.motorFour.setPower(wheelPower);
+        hera.motorFour.setPower(wheelPower);
         while (hera.motorOne.getCurrentPosition() < endPosition && this.opMode.opModeIsActive()) {
             showData("StartPosition", "" + startPosition);
             showData("EndPosition", "" + endPosition);
             showData("CurrentPosition", "" + hera.motorOne.getCurrentPosition());
             do{
-                goStraight();
+                //goStraight();
             } while(!(this.wheelOneRatio == 1 && this.wheelThreeRatio == 1));
 
             showData("wheel one power", "" + hera.motorOne.getPower());
-            //showData("wheel two power", "" + hera.motorTwo.getPower());
+            showData("wheel two power", "" + hera.motorTwo.getPower());
             showData("wheel three power", "" + hera.motorThree.getPower());
-            //showData("wheel four power", "" + hera.motorFour.getPower());
+            showData("wheel four power", "" + hera.motorFour.getPower());
             showData("CurrentPosition", "" + hera.motorOne.getCurrentPosition());
             this.telemetry.update();
         }
@@ -89,7 +87,7 @@ public class DriveTrain {
         double endPosition = 0;
         showData("DRIVE_TRAIN_CAPTION", "Robot is moving backwards");
         startPosition = hera.motorOne.getCurrentPosition();
-        endPosition = startPosition - (inches * INCH_TO_TICK); // How far you need to travel
+        endPosition = startPosition - (inches * TICKS_IN_INCH); // How far you need to travel
         while (hera.motorOne.getCurrentPosition() > endPosition && this.opMode.opModeIsActive()) {
             hera.motorOne.setPower(-wheelPower);
             hera.motorTwo.setPower(-wheelPower);
@@ -146,7 +144,7 @@ public class DriveTrain {
         double endPosition = 0;
         showData("DRIVE_TRAIN_CAPTION", "Robot is moving left");
         startPosition = hera.motorOne.getCurrentPosition();
-        endPosition = startPosition - (inches * SIDE_INCH_TO_TICK); // How far you need to travel
+        endPosition = startPosition - (inches * SIDE_TICKS_IN_INCH); // How far you need to travel
         while (hera.motorOne.getCurrentPosition() > endPosition && this.opMode.opModeIsActive()) {
             showData("going Left", "End Position: " + endPosition);
             showData("going Left", "Start Pos: " + startPosition);
@@ -165,7 +163,7 @@ public class DriveTrain {
         double endPosition = 0;
         showData("DRIVE_TRAIN_CAPTION", "Robot is moving right");
         startPosition = hera.motorOne.getCurrentPosition();
-        endPosition = startPosition + (inches * SIDE_INCH_TO_TICK); // How far you need to travel
+        endPosition = startPosition + (inches * SIDE_TICKS_IN_INCH); // How far you need to travel
         while (hera.motorOne.getCurrentPosition() < endPosition && this.opMode.opModeIsActive()) {
             showData("goRight", "start position is " + startPosition);
             showData("goRight", "end position is " + endPosition);

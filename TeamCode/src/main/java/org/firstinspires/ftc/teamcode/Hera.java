@@ -57,17 +57,38 @@ public class Hera {
     }
 
     public void ringSense() {
-        while (true) {
-            if (openCV.getRingNumber() == RingPosition.ONE) {
-                // Drive to 2nd square
-                showData("Ring Position", "One");
-            } else if (openCV.getRingNumber() == RingPosition.FOUR) {
-                // Drive to 3rd square
-                showData("Ring Position", "Four");
-            } else {
-                // Drive to 1st square
-                showData("Ring Position", "None");
-            }
+
+        if (openCV.getRingNumber() == RingPosition.ONE) {
+            driveTrain.goForward(24);
+            driveTrain.goLeft(20);
+            // Go to launch line
+            driveTrain.goForward(42);
+            // (Shoot rings)
+            // Drive to 2nd square
+            driveTrain.goForward(30);
+            driveTrain.goRight(26);
+            //
+            showData("Ring Position", "One");
+        } else if (openCV.getRingNumber() == RingPosition.FOUR) {
+            driveTrain.goForward(24);
+            driveTrain.goLeft(20);
+            // Go to launch line
+            driveTrain.goForward(42);
+            // (Shoot rings)
+            // Drive to 3rd square
+            driveTrain.goForward(54);
+            driveTrain.goRight(50);
+            showData("Ring Position", "Four");
+        } else {
+            driveTrain.goForward(24);
+            driveTrain.goLeft(20);
+            // Go to launch line
+            driveTrain.goForward(42);
+            // (Shoot rings)
+            // Drive to 1st square
+            driveTrain.goForward(26);
+            driveTrain.goRight(50);
+            showData("Ring Position", "None");
         }
     }
 
