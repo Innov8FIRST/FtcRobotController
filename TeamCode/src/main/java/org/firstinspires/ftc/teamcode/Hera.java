@@ -67,7 +67,6 @@ public class Hera {
             // Drive to 2nd square
             driveTrain.goForward(30);
             driveTrain.goRight(26);
-            //
             showData("Ring Position", "One");
         } else if (openCV.getRingNumber() == RingPosition.FOUR) {
             driveTrain.goForward(24);
