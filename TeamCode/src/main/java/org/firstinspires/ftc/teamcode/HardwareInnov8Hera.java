@@ -34,7 +34,10 @@ public class HardwareInnov8Hera {
     public DcMotor motorFour = null; // Back right wheel
     public DcMotor shooterMotor = null;
 
+    public Servo ringPusher = null;
+
     public BNO055IMU imu;
+    public TouchSensor ringTouchSensor = null;
 
 
     public static final double MID_SERVO = 0.5;
@@ -61,12 +64,18 @@ public class HardwareInnov8Hera {
         motorFour = this.hwMap.get(DcMotor.class, "motorFour");
         shooterMotor = this.hwMap.get(DcMotor.class, "shooterMotor");
 
+        ringPusher = this.hwMap.get(Servo.class, "ringPusher");
+
+        ringTouchSensor = this.hwMap.get(TouchSensor.class, "ringTouchMotor");
+
         // Using REV (I think) motors
         motorOne.setDirection(DcMotor.Direction.FORWARD);
         motorTwo.setDirection(DcMotor.Direction.REVERSE);
         motorThree.setDirection(DcMotor.Direction.FORWARD);
         motorFour.setDirection(DcMotor.Direction.REVERSE);
         shooterMotor.setDirection(DcMotor.Direction.FORWARD);
+
+        ringPusher.setPosition(.5);
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
