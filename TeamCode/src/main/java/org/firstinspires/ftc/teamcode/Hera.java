@@ -9,7 +9,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class Hera {
     Telemetry telemetry;
     String HERA_CAPTION = "Hera Status";
-    DriveTrain driveTrain;
+    //DriveTrain driveTrain;
     Shooter shooter;
     LinearOpMode opMode;
     Gamepad gamepad1 = new Gamepad();
@@ -20,7 +20,7 @@ public class Hera {
         this.opMode = opMode;
         this.hwmap = new HardwareInnov8Hera(hwmap);
         this.telemetry = telemetry;
-        driveTrain = new DriveTrain(this.telemetry, this.hwmap, this.opMode);
+        //driveTrain = new DriveTrain(this.telemetry, this.hwmap, this.opMode);
         shooter = new Shooter(this.telemetry, this.hwmap, this.opMode);
         this.telemetry.addData(HERA_CAPTION, "ready to go");
         this.telemetry.update();
@@ -36,7 +36,7 @@ public class Hera {
 
         while (this.opMode.opModeIsActive()) {
             this.telemetry.addData(HERA_CAPTION, "teleop-ing");
-            driveTrain.teleopUpdate(gamepad1, gamepad2);
+            //driveTrain.teleopUpdate(gamepad1, gamepad2);
             shooter.teleopUpdate(gamepad1, gamepad2);
             this.telemetry.update();
         }
@@ -45,7 +45,7 @@ public class Hera {
 
     public void forwardTwelveInches() {
         
-        driveTrain.goForward(12);
+        //driveTrain.goForward(12);
     }
 
 }

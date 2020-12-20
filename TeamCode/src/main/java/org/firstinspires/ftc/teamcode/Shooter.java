@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import android.util.Log;
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
@@ -12,6 +14,14 @@ public class Shooter {
     HardwareInnov8Hera hera;
     LinearOpMode opMode;
 
+    public static double RINGPUSHER_LOAD = .6;
+    public static double RINGPUSHER_SHOOT = 1;
+    public double shootPower = .8;
+    public long postShotTime = 0;
+    public boolean shooterMotorIsRunning = false;
+    private enum ShootState {LOADING, SHOOTING, SETTING_CHILL_TIME, CHILLING}
+    public ShootState shooterState = ShootState.LOADING;
+
     public Shooter(Telemetry telemetry, HardwareInnov8Hera hera, LinearOpMode opMode) {
 
         this.opMode = opMode;
@@ -19,35 +29,59 @@ public class Shooter {
         this.telemetry = telemetry;
     }
 
-    public void teleopUpdate(Gamepad gamepad1, Gamepad gamepad2) {
-        long time = 0;
-        long endTime = 0;
-        if (gamepad2.y) {
-            hera.shooterMotor.setPower(1);
-        }
-
-        if (gamepad2.a) {
-            hera.shooterMotor.setPower(0);
-        }
-
-        if (Math.abs(gamepad2.left_stick_y) > .25) {
-            hera.shooterMotor.setPower(gamepad2.left_stick_y);
-        }
-
-        if (hera.ringTouchSensor.isPressed()) {
-            hera.ringPusher.setPosition(0);
-            time = System.currentTimeMillis();
-            endTime = time + 2000;
-        }
-
-        if (System.currentTimeMillis() >= endTime) {
-            hera.ringPusher.setPosition(1);
-        }
-    }
-
     public void shoot() {
 
+        }
+
+
+    public void teleopUpdate(Gamepad gamepad1, Gamepad gamepad2) {
+
+        if (shooterMotorIsRunning) {
+            if (gamepad2.a) {
+                hera.shooterMotor.setPower(0);
+                shooterMotorIsRunning = false;
+            }
+        }  else {
+            if (gamepad2.a) {
+                hera.shooterMotor.setPower(shootPower);
+                shooterMotorIsRunning = true;
+            }
+        }
+
+
+        switch (shooterState) {
+            case LOADING:
+                hera.ringPusher.setPosition(RINGPUSHER_LOAD);
+                if (gamepad2.x && hera.ringTouchSensor.isPressed()) {
+                    shooterState = ShootState.SHOOTING;
+                }
+                break;
+            case SHOOTING:
+                hera.ringPusher.setPosition(RINGPUSHER_SHOOT);
+                shooterState = ShootState.CHILLING;
+                break;
+            case SETTING_CHILL_TIME:
+                postShotTime = System.currentTimeMillis() + 2000;
+                shooterState = ShootState.CHILLING;
+                break;
+            case CHILLING:
+                if (System.currentTimeMillis() >= postShotTime) {
+                    shooterState = ShootState.LOADING;
+                }
+                break;
+            default:
+                showData("SWITCH_CAPTION: ", "Switch failed");
+                break;
+        }
+
 
     }
+
+    public void showData(String caption, String value) {
+        this.telemetry.addData(caption, value);
+        this.telemetry.update();
+        Log.d(caption, value);
+    }
+
 
 }
