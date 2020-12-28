@@ -33,7 +33,6 @@ public class HardwareInnov8Hera {
     public DcMotor motorTwo = null; // Back left  wheel
     public DcMotor motorThree = null; // Front right wheel
     public DcMotor motorFour = null; // Back right wheel
-    //public DcMotor shooterMotor = null;
 
     public BNO055IMU imu;
     BNO055IMU.Parameters parameters;
@@ -46,6 +45,7 @@ public class HardwareInnov8Hera {
     HardwareMap hwMap = null;
     private ElapsedTime period = new ElapsedTime();
     private LinearOpMode opMode;
+
     /* Constructor */
     public HardwareInnov8Hera(HardwareMap ahwMap, LinearOpMode opMode) {
         this.opMode = opMode;
@@ -61,14 +61,12 @@ public class HardwareInnov8Hera {
         motorTwo = this.hwMap.get(DcMotor.class, "motorTwo");
         motorThree = this.hwMap.get(DcMotor.class, "motorThree");
         motorFour = this.hwMap.get(DcMotor.class, "motorFour");
-        //shooterMotor = this.hwMap.get(DcMotor.class, "shooterMotor");
 
         // Using REV (I think) motors
         motorOne.setDirection(DcMotor.Direction.FORWARD);
         motorTwo.setDirection(DcMotor.Direction.REVERSE);
         motorThree.setDirection(DcMotor.Direction.FORWARD);
         motorFour.setDirection(DcMotor.Direction.REVERSE);
-        //shooterMotor.setDirection(DcMotor.Direction.FORWARD);
 
 
         // Set all motors to zero power
@@ -76,7 +74,6 @@ public class HardwareInnov8Hera {
         motorTwo.setPower(0);
         motorThree.setPower(0);
         motorFour.setPower(0);
-        //shooterMotor.setPower(0);
 
 
         // May want to use RUN_USING_ENCODERS if encoders are installed.

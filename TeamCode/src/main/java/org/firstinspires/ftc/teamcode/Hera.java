@@ -48,12 +48,10 @@ public class Hera {
     }
     
 
-    public void forwardTurn() {
+    public void forwardTest() {
         while(true) {
             driveTrain.goForward(1000000);
         }
-//        driveTrain.turn(-90);
-//        driveTrain.goForward(30);
     }
 
     public void ringSense() {
