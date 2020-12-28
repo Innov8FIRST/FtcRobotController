@@ -77,12 +77,12 @@ public class HardwareInnov8Hera {
         motorOne.setDirection(DcMotor.Direction.FORWARD);
         motorTwo.setDirection(DcMotor.Direction.REVERSE);
         motorThree.setDirection(DcMotor.Direction.FORWARD);
-        motorFour.setDirection(DcMotor.Direction.REVERSE);
+        motorFour.setDirection(DcMotor.Direction.FORWARD);
         shooterMotor.setDirection(DcMotor.Direction.FORWARD);
         conveyerMotor.setDirection(DcMotor.Direction.FORWARD);
         intakeMotor.setDirection(DcMotor.Direction.FORWARD);
 
-        ringPusher.setPosition(0.5);
+        ringPusher.setPosition(0.535);
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;

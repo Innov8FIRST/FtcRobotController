@@ -14,6 +14,8 @@ public class Conveyer {
     HardwareInnov8Hera hera;
     LinearOpMode opMode;
 
+    public boolean conveyerIsRunning = false;
+
 
     public Conveyer(Telemetry telemetry, HardwareInnov8Hera hera, LinearOpMode opMode) {
 
@@ -27,13 +29,19 @@ public class Conveyer {
             hera.conveyerMotor.setPower(gamepad2.left_stick_y);
             showData("CONVEYER_STATUS: ", "Conveyer is running");
         }
+        else {
+            hera.conveyerMotor.setPower(0);
+            showData("CONVEYER_STATUS: ", "Conveyer is stopping");
+        }
 
-        if (gamepad1.y || gamepad2.y) {
-            if (hera.conveyerMotor.getPower() > .25) {
+        if (gamepad2.y) {
+            if (conveyerIsRunning) {
                 hera.conveyerMotor.setPower(0);
+                conveyerIsRunning = false;
             }
             else {
-                hera.conveyerMotor.setPower(1);
+                hera.conveyerMotor.setPower(-0.8);
+                conveyerIsRunning = true;
             }
         }
 

@@ -14,7 +14,7 @@ public class Shooter {
     HardwareInnov8Hera hera;
     LinearOpMode opMode;
 
-    public static double RINGPUSHER_LOAD = .45;
+    public static double RINGPUSHER_LOAD = .535;
     public static double RINGPUSHER_SHOOT = .0;
     public double shootPower = .8;
     public long postShotTime = 0;
@@ -41,7 +41,8 @@ public class Shooter {
                 hera.shooterMotor.setPower(0);
                 shooterMotorIsRunning = false;
             }
-        }  else {
+        }
+        else {
             if (gamepad2.a) {
                 hera.shooterMotor.setPower(shootPower);
                 shooterMotorIsRunning = true;
@@ -50,6 +51,7 @@ public class Shooter {
 
         if (gamepad1.x) {
             hera.ringPusher.setPosition(RINGPUSHER_SHOOT);
+            shooterState = ShootState.SETTING_CHILL_TIME;
         }
 
 
@@ -63,15 +65,18 @@ public class Shooter {
                 break;
             case SHOOTING:
                 hera.ringPusher.setPosition(RINGPUSHER_SHOOT);
-                shooterState = ShootState.CHILLING;
+                shooterState = ShootState.SETTING_CHILL_TIME;
+                showData("RING_PUSHER: ", "Shooting");
                 break;
             case SETTING_CHILL_TIME:
                 postShotTime = System.currentTimeMillis() + 2000;
                 shooterState = ShootState.CHILLING;
+                showData("RING_PUSHER: ", "Setting chill time");
                 break;
             case CHILLING:
                 if (System.currentTimeMillis() >= postShotTime) {
                     shooterState = ShootState.LOADING;
+                    showData("RING_PUSHER: ", "Chilling");
                 }
                 break;
             default:

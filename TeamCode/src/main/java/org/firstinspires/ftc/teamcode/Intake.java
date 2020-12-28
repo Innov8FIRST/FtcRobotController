@@ -14,6 +14,8 @@ public class Intake {
     HardwareInnov8Hera hera;
     LinearOpMode opMode;
 
+    public boolean intakeMotorIsRunning = false;
+
 
     public Intake(Telemetry telemetry, HardwareInnov8Hera hera, LinearOpMode opMode) {
 
@@ -29,17 +31,24 @@ public class Intake {
     }
 
     public void teleopUpdate(Gamepad gamepad1, Gamepad gamepad2) {
+
         if (Math.abs(gamepad2.right_stick_y) > .25) {
             hera.intakeMotor.setPower(-gamepad2.right_stick_y);
             showData("INTAKE_STATUS: ", "Intake is running");
         }
+        else {
+            hera.intakeMotor.setPower(0);
+            showData("INTAKE_STATUS", "Intake is stopped");
+        }
 
-        if (gamepad1.b || gamepad2.b) {
-            if (hera.intakeMotor.getPower() > .25) {
+        if (gamepad2.b) {
+            if (intakeMotorIsRunning) {
                 hera.intakeMotor.setPower(0);
+                intakeMotorIsRunning = false;
             }
             else {
-                hera.intakeMotor.setPower(1);
+                hera.intakeMotor.setPower(.8);
+                intakeMotorIsRunning = true;
             }
         }
     }
