@@ -35,6 +35,7 @@ public class HardwareInnov8Hera {
     public DcMotor motorFour = null; // Back right wheel
     public DcMotor shooterMotor = null;
     public DcMotor conveyerMotor = null;
+    public DcMotor intakeMotor = null;
 
     public Servo ringPusher = null;
 
@@ -60,26 +61,28 @@ public class HardwareInnov8Hera {
     public void init(HardwareMap ahwMap) {
 
         // Define and Initialize Motors
-        //motorOne = this.hwMap.get(DcMotor.class, "motorOne");
-        //motorTwo = this.hwMap.get(DcMotor.class, "motorTwo");
-        //motorThree = this.hwMap.get(DcMotor.class, "motorThree");
-        //motorFour = this.hwMap.get(DcMotor.class, "motorFour");
+        motorOne = this.hwMap.get(DcMotor.class, "motorOne");
+        motorTwo = this.hwMap.get(DcMotor.class, "motorTwo");
+        motorThree = this.hwMap.get(DcMotor.class, "motorThree");
+        motorFour = this.hwMap.get(DcMotor.class, "motorFour");
         shooterMotor = this.hwMap.get(DcMotor.class, "shooterMotor");
-        //conveyerMotor = this.hwMap.get(DcMotor.class, "converyerMotor");
+        conveyerMotor = this.hwMap.get(DcMotor.class, "conveyerMotor");
+        intakeMotor = this.hwMap.get(DcMotor.class, "intakeMotor");
 
         ringPusher = this.hwMap.get(Servo.class, "ringPusher");
 
         ringTouchSensor = this.hwMap.get(TouchSensor.class, "ringTouchMotor");
 
         // Using REV motors
-        //motorOne.setDirection(DcMotor.Direction.FORWARD);
-        //motorTwo.setDirection(DcMotor.Direction.REVERSE);
-        //motorThree.setDirection(DcMotor.Direction.FORWARD);
-        //motorFour.setDirection(DcMotor.Direction.REVERSE);
+        motorOne.setDirection(DcMotor.Direction.FORWARD);
+        motorTwo.setDirection(DcMotor.Direction.REVERSE);
+        motorThree.setDirection(DcMotor.Direction.FORWARD);
+        motorFour.setDirection(DcMotor.Direction.REVERSE);
         shooterMotor.setDirection(DcMotor.Direction.FORWARD);
-        //conveyerMotor.setDirection(DcMotor.Direction.FORWARD);
+        conveyerMotor.setDirection(DcMotor.Direction.FORWARD);
+        intakeMotor.setDirection(DcMotor.Direction.FORWARD);
 
-        ringPusher.setPosition(.6);
+        ringPusher.setPosition(0.5);
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
@@ -90,19 +93,20 @@ public class HardwareInnov8Hera {
         parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
 
         // Set all motors to zero power
-        //motorOne.setPower(0);
-        //motorTwo.setPower(0);
-        //motorThree.setPower(0);
-        //motorFour.setPower(0);
+        motorOne.setPower(0);
+        motorTwo.setPower(0);
+        motorThree.setPower(0);
+        motorFour.setPower(0);
         shooterMotor.setPower(0);
-        //conveyerMotor.setPower(0);
+        conveyerMotor.setPower(0);
+        intakeMotor.setPower(0);
 
 
         // May want to use RUN_USING_ENCODERS if encoders are installed.
-        //motorOne.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        //motorTwo.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        //motorThree.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        //motorFour.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motorOne.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motorTwo.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motorThree.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motorFour.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
 }

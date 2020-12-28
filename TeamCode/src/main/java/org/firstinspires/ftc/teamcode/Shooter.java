@@ -9,13 +9,13 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class Shooter {
 
-    String SHOOTER_TRAIN_CAPTION = "Shooter Status";
+    String SHOOTER_CAPTION = "Shooter Status";
     Telemetry telemetry;
     HardwareInnov8Hera hera;
     LinearOpMode opMode;
 
-    public static double RINGPUSHER_LOAD = .6;
-    public static double RINGPUSHER_SHOOT = 1;
+    public static double RINGPUSHER_LOAD = .45;
+    public static double RINGPUSHER_SHOOT = .0;
     public double shootPower = .8;
     public long postShotTime = 0;
     public boolean shooterMotorIsRunning = false;
@@ -48,11 +48,16 @@ public class Shooter {
             }
         }
 
+        if (gamepad1.x) {
+            hera.ringPusher.setPosition(RINGPUSHER_SHOOT);
+        }
+
 
         switch (shooterState) {
             case LOADING:
                 hera.ringPusher.setPosition(RINGPUSHER_LOAD);
                 if (gamepad2.x && hera.ringTouchSensor.isPressed()) {
+                    showData("TOUCH_SENSOR: ", "Touch sensor is pressed");
                     shooterState = ShootState.SHOOTING;
                 }
                 break;
