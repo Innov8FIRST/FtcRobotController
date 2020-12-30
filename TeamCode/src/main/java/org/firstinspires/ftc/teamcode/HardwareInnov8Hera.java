@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
@@ -33,10 +34,15 @@ public class HardwareInnov8Hera {
     public DcMotor motorTwo = null; // Back left  wheel
     public DcMotor motorThree = null; // Front right wheel
     public DcMotor motorFour = null; // Back right wheel
-    //public DcMotor shooterMotor = null;
+    public DcMotor shooterMotor = null;
+    public DcMotor conveyerMotor = null;
+    public DcMotor intakeMotor = null;
+
+    public Servo ringPusher = null;
 
     public BNO055IMU imu;
-    BNO055IMU.Parameters parameters;
+    public TouchSensor ringTouchSensor = null;
+
 
     public static final double MID_SERVO = 0.5;
     public static final double START_SERVO = 0; // all the way down
@@ -61,14 +67,24 @@ public class HardwareInnov8Hera {
         motorTwo = this.hwMap.get(DcMotor.class, "motorTwo");
         motorThree = this.hwMap.get(DcMotor.class, "motorThree");
         motorFour = this.hwMap.get(DcMotor.class, "motorFour");
-        //shooterMotor = this.hwMap.get(DcMotor.class, "shooterMotor");
+        shooterMotor = this.hwMap.get(DcMotor.class, "shooterMotor");
+        conveyerMotor = this.hwMap.get(DcMotor.class, "conveyerMotor");
+        intakeMotor = this.hwMap.get(DcMotor.class, "intakeMotor");
 
-        // Using REV (I think) motors
+        ringPusher = this.hwMap.get(Servo.class, "ringPusher");
+
+        ringTouchSensor = this.hwMap.get(TouchSensor.class, "ringTouchMotor");
+
+        // Using REV motors
         motorOne.setDirection(DcMotor.Direction.FORWARD);
         motorTwo.setDirection(DcMotor.Direction.REVERSE);
         motorThree.setDirection(DcMotor.Direction.FORWARD);
-        motorFour.setDirection(DcMotor.Direction.REVERSE);
-        //shooterMotor.setDirection(DcMotor.Direction.FORWARD);
+        motorFour.setDirection(DcMotor.Direction.FORWARD);
+        shooterMotor.setDirection(DcMotor.Direction.FORWARD);
+        conveyerMotor.setDirection(DcMotor.Direction.FORWARD);
+        intakeMotor.setDirection(DcMotor.Direction.FORWARD);
+
+        ringPusher.setPosition(0.535);
 
 
         // Set all motors to zero power
@@ -76,7 +92,9 @@ public class HardwareInnov8Hera {
         motorTwo.setPower(0);
         motorThree.setPower(0);
         motorFour.setPower(0);
-        //shooterMotor.setPower(0);
+        shooterMotor.setPower(0);
+        conveyerMotor.setPower(0);
+        intakeMotor.setPower(0);
 
 
         // May want to use RUN_USING_ENCODERS if encoders are installed.
