@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -50,9 +51,10 @@ public class HardwareInnov8Hera {
     /* local OpMode members. */
     HardwareMap hwMap = null;
     private ElapsedTime period = new ElapsedTime();
-
+    private LinearOpMode opMode;
     /* Constructor */
-    public HardwareInnov8Hera(HardwareMap ahwMap) {
+    public HardwareInnov8Hera(HardwareMap ahwMap, LinearOpMode opMode) {
+        this.opMode = opMode;
         this.hwMap = ahwMap;
         this.init(ahwMap);
     }
@@ -84,13 +86,6 @@ public class HardwareInnov8Hera {
 
         ringPusher.setPosition(0.535);
 
-        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
-        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-        parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
-        parameters.loggingEnabled = true;
-        parameters.loggingTag = "IMU";
-        parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
 
         // Set all motors to zero power
         motorOne.setPower(0);
@@ -107,6 +102,20 @@ public class HardwareInnov8Hera {
         motorTwo.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorThree.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorFour.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        imu = this.hwMap.get(BNO055IMU.class, "imu");
+        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
+        parameters.loggingEnabled = true;
+        parameters.loggingTag = "IMU";
+        parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
+        this.imu.initialize(parameters);
+        while(!this.opMode.isStopRequested() && imu.isGyroCalibrated()) {
+            this.opMode.sleep(50);
+            this.opMode.idle();
+        }
     }
 
 }
