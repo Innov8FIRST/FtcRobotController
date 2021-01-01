@@ -160,7 +160,7 @@ public class DriveTrain {
         double endPosition = 0;
         showData("DRIVE_TRAIN_CAPTION", "Robot is moving left");
         startPosition = hera.motorOne.getCurrentPosition();
-        endPosition = startPosition - (inches * SIDE_INCH_TO_TICK); // How far you need to travel
+        endPosition = startPosition - (inches * SIDE_TICKS_IN_INCH); // How far you need to travel
         while (hera.motorOne.getCurrentPosition() > endPosition && this.opMode.opModeIsActive()) {
             showData("going Left", "End Position: " + endPosition);
             showData("going Left", "Start Pos: " + startPosition);
@@ -179,7 +179,7 @@ public class DriveTrain {
         double endPosition = 0;
         showData("DRIVE_TRAIN_CAPTION", "Robot is moving right");
         startPosition = hera.motorOne.getCurrentPosition();
-        endPosition = startPosition + (inches * SIDE_INCH_TO_TICK); // How far you need to travel
+        endPosition = startPosition + (inches * SIDE_TICKS_IN_INCH); // How far you need to travel
         while (hera.motorOne.getCurrentPosition() < endPosition && this.opMode.opModeIsActive()) {
             showData("goRight", "start position is " + startPosition);
             showData("goRight", "end position is " + endPosition);

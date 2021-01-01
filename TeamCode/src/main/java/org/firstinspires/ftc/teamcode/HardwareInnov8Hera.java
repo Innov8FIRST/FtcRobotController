@@ -52,6 +52,7 @@ public class HardwareInnov8Hera {
     HardwareMap hwMap = null;
     private ElapsedTime period = new ElapsedTime();
     private LinearOpMode opMode;
+
     /* Constructor */
     public HardwareInnov8Hera(HardwareMap ahwMap, LinearOpMode opMode) {
         this.opMode = opMode;

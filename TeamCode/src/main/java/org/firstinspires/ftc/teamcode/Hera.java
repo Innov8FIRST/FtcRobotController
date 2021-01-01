@@ -19,6 +19,7 @@ public class Hera {
     Shooter shooter;
     Conveyer conveyer;
     Intake intake;
+    OpenCV openCV;
     LinearOpMode opMode;
     Gamepad gamepad1 = new Gamepad();
     Gamepad gamepad2 = new Gamepad();
@@ -32,6 +33,8 @@ public class Hera {
         shooter = new Shooter(this.telemetry, this.hwmap, this.opMode);
         conveyer = new Conveyer(this.telemetry, this.hwmap, this.opMode);
         intake = new Intake(this.telemetry, this.hwmap, this.opMode);
+        driveTrain = new DriveTrain(this.telemetry, this.hwmap, this.opMode);
+        openCV = new OpenCV(this.telemetry, this.hwmap, this.opMode);
         this.telemetry.addData(HERA_CAPTION, "ready to go");
         this.telemetry.update();
     }
@@ -56,10 +59,52 @@ public class Hera {
     
 
     public void forwardTurn() {
-//        driveTrain.goForward(30);
+        while(true) {
+            driveTrain.goForward(47);
+        }
 //        driveTrain.turn(-90);
-       driveTrain.goForward(300);
+//        driveTrain.goForward(30);
     }
 
+    public void ringSense() {
+
+        if (openCV.getRingNumber() == RingPosition.ONE) {
+            driveTrain.goForward(24);
+            driveTrain.goLeft(20);
+            // Go to launch line
+            driveTrain.goForward(42);
+            // (Shoot rings)
+            // Drive to 2nd square
+            driveTrain.goForward(30);
+            driveTrain.goRight(26);
+            showData("Ring Position", "One");
+        } else if (openCV.getRingNumber() == RingPosition.FOUR) {
+            driveTrain.goForward(24);
+            driveTrain.goLeft(20);
+            // Go to launch line
+            driveTrain.goForward(42);
+            // (Shoot rings)
+            // Drive to 3rd square
+            driveTrain.goForward(54);
+            driveTrain.goRight(50);
+            showData("Ring Position", "Four");
+        } else {
+            driveTrain.goForward(24);
+            driveTrain.goLeft(20);
+            // Go to launch line
+            driveTrain.goForward(42);
+            // (Shoot rings)
+            // Drive to 1st square
+            driveTrain.goForward(26);
+            driveTrain.goRight(50);
+            showData("Ring Position", "None");
+        }
+    }
+
+    public void showData(String caption, String value) {
+        this.telemetry.addData(caption, value);
+        this.telemetry.update();
+        Log.d(caption, value);
+    }
 
 }
