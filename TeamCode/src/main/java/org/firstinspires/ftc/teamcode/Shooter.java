@@ -30,7 +30,10 @@ public class Shooter {
     }
 
     public void shoot() {
-
+        this.hera.ringPusher.setPosition(RINGPUSHER_SHOOT);
+        postShotTime = System.currentTimeMillis() + 1000;
+        while (System.currentTimeMillis() < postShotTime);
+        this.hera.ringPusher.setPosition(RINGPUSHER_LOAD);
         }
 
 

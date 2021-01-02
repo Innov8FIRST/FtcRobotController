@@ -20,6 +20,7 @@ public class Hera {
     Conveyer conveyer;
     Intake intake;
     OpenCV openCV;
+    Wobble wobble;
     LinearOpMode opMode;
     Gamepad gamepad1 = new Gamepad();
     Gamepad gamepad2 = new Gamepad();
@@ -35,6 +36,7 @@ public class Hera {
         intake = new Intake(this.telemetry, this.hwmap, this.opMode);
         driveTrain = new DriveTrain(this.telemetry, this.hwmap, this.opMode);
         openCV = new OpenCV(this.telemetry, this.hwmap, this.opMode);
+        wobble = new Wobble(this.telemetry, this.hwmap, this.opMode);
         this.telemetry.addData(HERA_CAPTION, "ready to go");
         this.telemetry.update();
     }
@@ -68,35 +70,45 @@ public class Hera {
 
     public void ringSense() {
 
+        this.hwmap.shooterMotor.setPower(.8);
         if (openCV.getRingNumber() == RingPosition.ONE) {
             driveTrain.goForward(24);
             driveTrain.goLeft(20);
             // Go to launch line
             driveTrain.goForward(42);
-            // (Shoot rings)
+            shooter.shoot();
             // Drive to 2nd square
             driveTrain.goForward(30);
             driveTrain.goRight(26);
+            wobble.drop();
+            // Park over line
+            driveTrain.goBackward(28);
             showData("Ring Position", "One");
         } else if (openCV.getRingNumber() == RingPosition.FOUR) {
             driveTrain.goForward(24);
             driveTrain.goLeft(20);
             // Go to launch line
             driveTrain.goForward(42);
-            // (Shoot rings)
+            shooter.shoot();
             // Drive to 3rd square
             driveTrain.goForward(54);
             driveTrain.goRight(50);
+            wobble.drop();
+            // Park over line
+            driveTrain.goBackward(52);
             showData("Ring Position", "Four");
         } else {
             driveTrain.goForward(24);
             driveTrain.goLeft(20);
             // Go to launch line
             driveTrain.goForward(42);
-            // (Shoot rings)
+            shooter.shoot();
             // Drive to 1st square
             driveTrain.goForward(26);
             driveTrain.goRight(50);
+            wobble.drop();
+            // Park over line
+            driveTrain.goBackward(24);
             showData("Ring Position", "None");
         }
     }
